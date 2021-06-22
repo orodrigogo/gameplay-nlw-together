@@ -1,7 +1,7 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get('window').height
+    flex: 1
   }
-});
+})

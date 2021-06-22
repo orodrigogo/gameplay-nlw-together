@@ -4,19 +4,17 @@ import { theme } from '../../global/styles/theme';
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    marginTop: 27
-  },
-  title: {
-    fontFamily: theme.fonts.title700,
+    height: 95,
+    backgroundColor: theme.colors.secondary40,
     color: theme.colors.heading,
-    fontSize: 18,
-  },
-  subtitle: {
+    borderRadius: 8,
     fontFamily: theme.fonts.text400,
-    color: theme.colors.highlight,
     fontSize: 13,
+    marginRight: 4,
+    borderWidth: 1,
+    borderColor: theme.colors.secondary50,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    textAlignVertical: 'top'
   }
 });
