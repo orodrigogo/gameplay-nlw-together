@@ -1,5 +1,5 @@
-import React, 
-{ 
+import React,
+{
   createContext,
   useContext,
   useState,
@@ -56,12 +56,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     try {
       setLoading(true);
 
-      const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`; 
+      const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
       const { type, params } = await AuthSession
-      .startAsync({ authUrl }) as AuthorizationResponse;
+        .startAsync({ authUrl }) as AuthorizationResponse;
 
-      if(type === "success" && !params.error){ 
+      if (type === "success" && !params.error) {
         api.defaults.headers.authorization = `Bearer ${params.access_token}`;
 
         const userInfo = await api.get('/users/@me');
@@ -74,9 +74,9 @@ function AuthProvider({ children }: AuthProviderProps) {
           firstName,
           token: params.access_token
         }
-       
+
         await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
-        setUser(userData);        
+        setUser(userData);
       }
     } catch {
       throw new Error('Não foi possível autenticar');
@@ -87,13 +87,13 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function singOut() {
     setUser({} as User);
-    await AsyncStorage.removeItem(COLLECTION_USERS);    
+    await AsyncStorage.removeItem(COLLECTION_USERS);
   }
 
   async function loadUserStorageData() {
     const storage = await AsyncStorage.getItem(COLLECTION_USERS);
 
-    if(storage){
+    if (storage) {
       const userLogged = JSON.parse(storage) as User;
       api.defaults.headers.authorization = `Bearer ${userLogged.token}`;
 
@@ -103,7 +103,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     loadUserStorageData();
-  },[]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{
@@ -112,7 +112,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       signIn,
       singOut
     }}>
-      { children }
+      {children}
     </AuthContext.Provider>
   )
 }
