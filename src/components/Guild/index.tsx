@@ -39,7 +39,7 @@ export function Guild({data, ...rest}: Props){
             </Text>
 
             <Text style={styles.type}>
-              { data.owen ? 'Administrador' : 'Convidado'}
+              { data.owner ? 'Administrador' : 'Convidado'}
             </Text>
           </View>
         </View>
