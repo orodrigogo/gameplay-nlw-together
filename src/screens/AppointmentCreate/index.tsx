@@ -8,6 +8,7 @@ import uuid from 'react-native-uuid';
 import {
   Text,
   View,
+  Alert,
   Platform,
   ScrollView,
   KeyboardAvoidingView,
@@ -42,29 +43,71 @@ export function AppointmentCreate(){
 
   const navigation = useNavigation();
 
-  function handleOpenGuilds(){
+  function handleOpenGuilds() {
     setOpenGuildsModal(true);
   }
 
-  function handleCloseGuilds(){
+  function handleCloseGuilds() {
     setOpenGuildsModal(false);
   }
 
-  function handleGuildSelect(guildSelect: GuildProps){
+  function handleGuildSelect(guildSelect: GuildProps) {
     setGuild(guildSelect);
     setOpenGuildsModal(false);
   }
 
   function handleCategorySelect(categoryId: string) {
     setCategory(categoryId);
-  } 
+  }
+
+  function validateForm() {
+    if (!category) {
+      return 'Escolha um categoria.';
+    }
+
+    if (!guild?.id) {
+      return 'Escolha um servidor para a sua partida.';
+    }
+
+    if (isNaN(Number(day)) || Number(day) > 32 || Number(day) < 1) {
+      return 'Dia inválido.';
+    }
+
+    if (isNaN(Number(month)) || Number(month) > 12 || Number(month) < 1) {
+      return 'Mês inválido.';
+    }
+
+    if (isNaN(Number(hour)) || Number(hour) > 23 || Number(hour) < 0) {
+      return 'Horário inválido.';
+    }
+
+    if (isNaN(Number(minute)) || Number(minute) > 59 || Number(minute) < 0) {
+      return 'Minuto inválido';
+    }
+
+    if (!description || description.length < 5) {
+      return 'A descrição deve conter pelo menos 5 caracteres.';
+    }
+
+    return;
+  }
+
+  function pad(num: string) {
+    return ('0' + num).slice(-2);
+  }
 
   async function handleSave() {
+    const hasInvalidInput = validateForm();
+    if (hasInvalidInput) {
+      Alert.alert('Erro no formulário', hasInvalidInput);
+      return;
+    }
+
     const newAppointment = {
       id: uuid.v4(),
       guild,
       category,
-      date: `${day}/${month} às ${hour}:${minute}h`,
+      date: `${pad(day)}/${pad(month)} às ${pad(hour)}:${pad(minute)}h`,
       description
     };
 
