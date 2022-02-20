@@ -50,9 +50,10 @@ export function AppointmentDetails(){
   async function fetchGuildWidget() {
     try {
       const response = await api.get(`/guilds/${guildSelected.guild.id}/widget.json`);
-      setWidget(response.data);      
+
+      setWidget(response.data);
     } catch {
-      Alert.alert('Verifique as configurações do servidor. Será que o Widget está habilitado?');      
+      Alert.alert('Verifique as configurações do servidor.', 'Será que o Widget está habilitado?');
     } finally {
       setLoading(false);
     }
@@ -110,12 +111,12 @@ export function AppointmentDetails(){
       {
         loading ? <Load /> :
         <>
-          <ListHeader 
+          <ListHeader
             title="Jogadores"
-            subtitle={`Total ${widget.members.length}`}
+            subtitle={`Total ${widget.members?.length ? widget.members?.length : '0'}`}
           />
 
-          <FlatList 
+          <FlatList
             data={widget.members}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
@@ -128,7 +129,7 @@ export function AppointmentDetails(){
       }
 
       {
-         guildSelected.guild.owner &&
+        guildSelected.guild.owner &&
         <View style={styles.footer}>
           <ButtonIcon 
             title="Entrar na partida" 
